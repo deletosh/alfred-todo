@@ -4,10 +4,10 @@ use strict;
 use Data::Dumper;
 
 my $todotxt = '/usr/local/bin/todo.sh';
-my $debug = 0;
-my $debug_todo_conf = '';
+my $debug = 1;
+my $debug_todo_conf = '/Users/deletosh/.todo.cfg';
 my $disable_smart_uppercase = 0;
-my $fancy_icons = 0;
+my $fancy_icons = 1;
 my $icondir = 'icons';
 my $confmsg = 'Configure the workflow';
 
@@ -86,7 +86,7 @@ sub getlist {
     debug "Search string: $searchstr" if $searchstr;
 
     my @out = ();
-    my $comm = "$todotxt -f -p ls $searchstr";
+    my $comm = "$todotxt -d ~/.todo.cfg -f -p ls $searchstr";
     open(COMM, "$comm |")
         or die "Error running command: $comm\n";
     while (<COMM>) {
@@ -303,7 +303,8 @@ if (not -x $todotxt) {
 }
 
 $debug = 0 if not $debug;
-$todotxt .= " -d $debug_todo_conf" if $debug and $debug_todo_conf;
+#$todotxt .= " -d $debug_todo_conf" if $debug and $debug_todo_conf;
+$todotxt .= " -d ~/.todo.cfg";
 
 $disable_smart_uppercase = getconf('DISABLE_SMART_UPPERCASE');
 $fancy_icons = getconf('FANCY_ICONS');
